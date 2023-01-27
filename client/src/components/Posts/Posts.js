@@ -1,13 +1,20 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import { useSelector } from 'react-redux'
 import Post from './Post/Post'
+import './postsStyles.css'
 
 const Posts = () => {
+  const posts = useSelector((state) => state.posts)
+  console.log('POSTS', posts)
+
   return (
-    <Fragment>
+    <div className="postsContainer">
       <h1>Posts</h1>
-      <Post />
-      <Post />
-    </Fragment>
+      <div className="postsBodyContainer">
+        <Post />
+        <Post />
+      </div>
+    </div>
   )
 }
 

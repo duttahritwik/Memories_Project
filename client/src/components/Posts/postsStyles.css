@@ -1,0 +1,9 @@
+.postsContainer {
+  display: flex;
+  margin: 100px 500px 0px 200px;
+}
+
+.postsBodyContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
