@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import FileBase from 'react-file-base64'
+import { useDispatch } from 'react-redux'
+import { createPost } from '../../actions/posts'
 import './formStyles.css'
 
 const Form = () => {
@@ -9,36 +12,50 @@ const Form = () => {
     { type: 'tags', placeholder: 'Post Tags' },
   ]
 
-  const [formData, setFormData] = useState({
+  const dispatch = useDispatch()
+
+  const [postData, setPostData] = useState({
     creator: '',
     title: '',
     body: '',
     tags: '',
+    selectedFile: '',
   })
 
-  console.log(formData)
-
-  const handleFormSubmit = () => {
-    console.log('onformSubmit')
+  const handleFormSubmit = (e) => {
+    e.preventDefault()
+    dispatch(createPost(postData))
   }
 
   return (
-    <div className="formContainer">
+    <div className="form-container">
       {[...Array(4)].map((_, index) => (
         <input
           type="text"
           placeholder={formTextPlaceholders[index].type}
-          className="formTextContainer"
-          value={formData[formTextPlaceholders[index].type]}
+          className="form-text-container"
+          value={postData[formTextPlaceholders[index].type]}
           onChange={(e) => {
-            setFormData({
-              ...formData,
+            setPostData({
+              ...postData,
               [formTextPlaceholders[index].type]: e.target.value,
             })
           }}
         />
       ))}
-      <input type="submit" value="Submit" onClick={handleFormSubmit} />
+      <div className="file-upload-container">
+        <FileBase
+          type="file"
+          multiple={false}
+          onDone={(base64) =>
+            setPostData({ ...postData, selectedFile: base64 })
+          }
+        />
+      </div>
+      <button className="submit-post" onClick={handleFormSubmit}>
+        Submit
+      </button>
+      <button className="clear-form">Clear</button>
     </div>
   )
 }
